@@ -7,10 +7,10 @@ namespace URLShortener
 {
     public class URLShortener
     {
-        private string URL;
-        private Dictionary<string, string> urlToShortMap;
+        private string _url;
+        private Dictionary<string, string> _urlToShortMap;
 
-        private string[] availableCharacters =
+        private string[] _availableCharacters =
         {
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
             "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
@@ -21,31 +21,31 @@ namespace URLShortener
 
         public URLShortener()
         {
-            urlToShortMap = new Dictionary<string, string>();
+            _urlToShortMap = new Dictionary<string, string>();
         }
 
-        public URLShortener(string URL)
+        public URLShortener(string url)
         {
-            this.URL = URL;
-            urlToShortMap = new Dictionary<string, string>();
+            this._url = url;
+            _urlToShortMap = new Dictionary<string, string>();
         }
 
-        public void mapUrl(string URL)
+        public void MapUrl(string url)
         {
-            string shortLink = generateShortLink(URL);
-            urlToShortMap.Add(URL, shortLink);
+            string shortLink = GenerateShortLink(url);
+            _urlToShortMap.Add(url, shortLink);
         }
 
-        public string extractURLWithoutTLD(string URL)
+        public string ExtractURLWithoutTLD(string url)
         {
             string URLWithouthTLD = "";
             // Identifies URL TLD
-            for (int character = URL.Length - 1; character >= 0; character--)
+            for (int character = url.Length - 1; character >= 0; character--)
             {
                 // End of TLD
-                if (URL[character] == '.')
+                if (url[character] == '.')
                 {
-                    URLWithouthTLD = URL.Substring(0, character);
+                    URLWithouthTLD = url.Substring(0, character);
                     break;
                 }
             }
@@ -53,21 +53,21 @@ namespace URLShortener
             return URLWithouthTLD;
         }
 
-        private string generateShortLink(string URL)
+        private string GenerateShortLink(string URL)
         {
             Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-            string URLWithouthTLD = extractURLWithoutTLD(URL);
+            string URLWithouthTLD = ExtractURLWithoutTLD(URL);
             string shortLink = "joe.ly/";
             string URLOrigin = string.Join("", URLWithouthTLD.Take(1).Concat(URLWithouthTLD.TakeLast(2)));
-            string shortLinkID = string.Join("", availableCharacters.OrderBy(x => random.Next()).Take(3));
+            string shortLinkID = string.Join("", _availableCharacters.OrderBy(x => random.Next()).Take(3));
             string fullShortLink = string.Join("", shortLink.Concat(URLOrigin.Concat(shortLinkID)));
 
             return fullShortLink;
         }
 
-        public void printMappings()
+        public void PrintMappings()
         {
-            foreach (KeyValuePair<string, string> pair in urlToShortMap)
+            foreach (KeyValuePair<string, string> pair in _urlToShortMap)
             {
                 string key = pair.Key;
                 string value = pair.Value;

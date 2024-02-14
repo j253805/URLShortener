@@ -7,9 +7,9 @@ public class Program
     {
 
         URLShortener shrtener = new URLShortener();
-        shrtener.mapUrl("youtube.com");
-        shrtener.mapUrl("google.com");
-        shrtener.printMappings();
+        shrtener.MapUrl("youtube");
+        shrtener.MapUrl("google.com");
+        shrtener.PrintMappings();
     }
 }
 
